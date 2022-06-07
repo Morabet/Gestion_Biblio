@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BIBLIOTHECAIRE.Biblio_Activity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/id_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorAnimationMode="linear"
+        app:tabIndicatorGravity="bottom"
+        app:tabMode="scrollable">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="liste des livres" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Livres réservés" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Etudiants suspendus" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tabItem_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_add_24"
+            android:text="" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/id_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_tab" />
+</androidx.constraintlayout.widget.ConstraintLayout>

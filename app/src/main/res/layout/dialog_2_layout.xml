@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="14dp">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:hint="Entrez les nouvelles valeurs des informations que vous changez" />
+
+    <EditText
+        android:id="@+id/dialog2_new_Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="nouvel e-mail"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/dialog2_new_Tele"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="nouveau téléphone"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/dialog2_new_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="nouveau mot de passe"
+        android:textSize="18sp"/>
+</LinearLayout>

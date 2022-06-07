@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/biblio_item"
+        android:title="@string/ma_bibliotheque"
+        android:icon="@drawable/ic_baseline_local_library_24"/>
+    <item
+        android:id="@+id/home_item"
+        android:title="@string/home"
+        android:icon="@drawable/ic_baseline_home_24"/>
+    <item
+        android:id="@+id/compte_item"
+        android:title="@string/compte"
+        android:icon="@drawable/ic_baseline_account_circle_24"/>
+</menu>

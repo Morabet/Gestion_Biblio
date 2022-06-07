@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Gestion_Biblio">
+        <activity
+            android:name=".BIBLIOTHECAIRE.ActivityCompteBiblio"
+            android:exported="false" />
+        <activity
+            android:name=".BIBLIOTHECAIRE.ConfirmerRetour_LivresEmprunter"
+            android:exported="false" />
+        <activity
+            android:name=".BIBLIOTHECAIRE.reservation_etud_page"
+            android:exported="false" />
+        <activity
+            android:name=".BIBLIOTHECAIRE.Page_Modification_Livre"
+            android:exported="false" />
+        <activity
+            android:name=".BIBLIOTHECAIRE.Page_Livre_Biblio"
+            android:exported="false"
+            android:parentActivityName=".BIBLIOTHECAIRE.Biblio_Activity" />
+        <activity
+            android:name=".BIBLIOTHECAIRE.Biblio_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Livre_page_sansReservation"
+            android:exported="false" />
+        <activity
+            android:name=".My_Biblio_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".compte_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Livre_page"
+            android:exported="false" />
+        <activity
+            android:name=".Livres_listes"
+            android:exported="false" />
+        <activity
+            android:name=".Inscription"
+            android:exported="false" />
+        <activity
+            android:name=".homeEtud_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Login_Activity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
