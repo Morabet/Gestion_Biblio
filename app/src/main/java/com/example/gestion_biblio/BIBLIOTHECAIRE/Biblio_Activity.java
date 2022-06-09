@@ -1,6 +1,7 @@
 package com.example.gestion_biblio.BIBLIOTHECAIRE;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -8,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -151,7 +153,25 @@ public class Biblio_Activity extends AppCompatActivity {
         }
 
         if(item.getItemId() == R.id.logout){
-
+            AlertDialog.Builder builder = new AlertDialog.Builder(Biblio_Activity.this);
+            builder.setMessage("voulez-vous quitter ?");
+            builder.setCancelable(true);
+            builder.setNegativeButton("OUI", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    moveTaskToBack(true);
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(1);
+                }
+            });
+            builder.setPositiveButton("NON", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
 
         return super.onOptionsItemSelected(item);

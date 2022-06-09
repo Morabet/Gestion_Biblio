@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class Login_Activity extends AppCompatActivity implements Oublie_password_Dialoge.Dialoge_Listener{
 
-    public static String IP=  "10.0.2.2";  //"10.0.2.2";
+    public static String IP=  "192.168.100.251";  //"10.0.2.2";
 
     public static Current_User_Model current_user;     // setting the current user info
     Intent intent;
@@ -48,20 +48,14 @@ public class Login_Activity extends AppCompatActivity implements Oublie_password
 
         userName = findViewById(R.id.edT_UserName);
         password = findViewById(R.id.edT_password);
+
     }
 
 
 ///////////////////////////////////////////////
 
     public void onClick_connexion(View view) {
-
-        if(userName.getText().toString().equals("admin") && password.getText().toString().equals("admin")){
-             intent = new Intent(Login_Activity.this, Biblio_Activity.class);
-            startActivity(intent);
-        }
-        else {
             login_Fetch();
-        }
     }
 
     public void onClick_oublie(View view) {
@@ -89,27 +83,35 @@ public class Login_Activity extends AppCompatActivity implements Oublie_password
             @Override
             public void onResponse(String response) {
                 progressDialog1.dismiss();
-                String error;
+
 
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    Toast.makeText(Login_Activity.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                    error = jsonObject.getString("error");
+                    Log.e("§§§§§§§§§§ TAG", "ERROR "+jsonObject.getString("error"));
 
-                    Log.e("§§§§§§§§§§ TAG", "ERROR "+error);
+                    if(jsonObject.getString("error").equals("false")){
+                        if(jsonObject.getString("user").equals("etudiant")){
 
-                    if(error.equals("false")){
+                            current_user = new Current_User_Model(jsonObject.getString("apogee"),
+                                    jsonObject.getString("nom"),jsonObject.getString("prenom"),
+                                    jsonObject.getString("email"),jsonObject.getString("mot_pass"),
+                                    jsonObject.getString("tele"),jsonObject.getString("statut"),
+                                    jsonObject.getInt("numReserver"),jsonObject.getInt("numEmprunter"));
 
-                        current_user = new Current_User_Model(jsonObject.getString("apogee"),
-                                jsonObject.getString("nom"),jsonObject.getString("prenom"),
-                                jsonObject.getString("email"),jsonObject.getString("mot_pass"),
-                                jsonObject.getString("tele"),jsonObject.getString("statut"),
-                                jsonObject.getInt("numReserver"),jsonObject.getInt("numEmprunter"));
-
-                        intent = new Intent(Login_Activity.this,homeEtud_Activity.class);
-                        startActivity(intent);
+                            intent = new Intent(Login_Activity.this,homeEtud_Activity.class);
+                            startActivity(intent);
+                        }
+                        if(jsonObject.getString("user").equals("admin")){
+                            intent = new Intent(Login_Activity.this,Biblio_Activity.class);
+                            startActivity(intent);
+                        }
                     }
+                    else{
+                        Toast.makeText(Login_Activity.this, "les informations incorrectes", Toast.LENGTH_SHORT).show();
+                    }
+
+
 
                 } catch (JSONException e) {
                     Log.e("§§§§§§§§§§ TAG", "EXCEPTION :  "+e.getMessage());
@@ -170,6 +172,7 @@ public class Login_Activity extends AppCompatActivity implements Oublie_password
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
                 Toast.makeText(Login_Activity.this,"on error response",Toast.LENGTH_SHORT).show();
             }
         }){

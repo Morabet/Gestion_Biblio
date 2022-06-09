@@ -80,6 +80,7 @@ public class compte_Activity extends AppCompatActivity implements Dialoge_1.Dial
         dialoge_1.show(getSupportFragmentManager(),"Dialoge_1");
 
     }
+
     @Override
     public void getPassword(String currentPass) {
         if(Login_Activity.current_user.getPassword().equals(currentPass)){
