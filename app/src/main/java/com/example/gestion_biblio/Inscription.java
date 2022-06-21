@@ -112,7 +112,7 @@ public class Inscription extends AppCompatActivity {
     /////////////////
     public  void addData(){
 
-        String url ="http://192.168.1.105.231:80/php_Scripts/Gestion_biblio_scripts/Inscription.php";
+        String url ="http://"+Login_Activity.IP+"/php_Scripts/Gestion_biblio_scripts/Inscription.php";
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
 
@@ -142,7 +142,7 @@ public class Inscription extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(Inscription.this, "faild to get response", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Inscription.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         }){

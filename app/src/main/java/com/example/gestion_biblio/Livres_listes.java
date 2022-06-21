@@ -92,7 +92,7 @@ public class Livres_listes extends AppCompatActivity implements RecyclerView_Int
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.search_item,menu);
+        getMenuInflater().inflate(R.menu.search_item1,menu);
         return true;
     }
     @Override

@@ -3,9 +3,11 @@ package com.example.gestion_biblio.BIBLIOTHECAIRE;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -79,55 +81,71 @@ public class Page_Livre_Biblio extends AppCompatActivity {
     }
 
     public void OnClick_btnSupprimer(View view) {
-
-
-        ProgressDialog progressDialog= new ProgressDialog(Page_Livre_Biblio.this);
-        progressDialog.setMessage("please wait...!");
-        progressDialog.show();
-
-        String url ="http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/delete_livre_biblio.php";
-
-        StringRequest request= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Page_Livre_Biblio.this);
+        builder.setMessage("voulez-vous supprimer le livre ?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("OUI", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(String response) {
-              progressDialog.dismiss();
-                try {
-                    JSONObject jsonObject= new JSONObject(response);
-                    if(jsonObject.getString("error").equals("false")){
-                        Toast.makeText(Page_Livre_Biblio.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
-                    }else {
-                        Toast.makeText(Page_Livre_Biblio.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ProgressDialog progressDialog= new ProgressDialog(Page_Livre_Biblio.this);
+                progressDialog.setMessage("please wait...!");
+                progressDialog.show();
+
+                String url ="http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/delete_livre_biblio.php";
+
+                StringRequest request= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONObject jsonObject= new JSONObject(response);
+                            if(jsonObject.getString("error").equals("false")){
+                                Toast.makeText(Page_Livre_Biblio.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(Page_Livre_Biblio.this,Biblio_Activity.class);
+                                startActivity(intent);
+                            }else {
+                                Toast.makeText(Page_Livre_Biblio.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Page_Livre_Biblio.this, "on error response", Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Page_Livre_Biblio.this, "on error response", Toast.LENGTH_LONG).show();
+                    }
+                }){
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
+                    }
 
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params =new HashMap<String,String>();
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params =new HashMap<String,String>();
 
-                params.put("id_livre",String.valueOf(idLivre));
-                return  params;
+                        params.put("id_livre",String.valueOf(idLivre));
+                        return  params;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(Page_Livre_Biblio.this);
+                requestQueue.add(request);
             }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(Page_Livre_Biblio.this);
-        requestQueue.add(request);
+        });
+        builder.setPositiveButton("NON", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
     }
 
     public void OnClick_btnModifier(View view) {
-
         Intent intent = new Intent(Page_Livre_Biblio.this,Page_Modification_Livre.class);
 
         intent.putExtra("ID",idLivre);
@@ -141,16 +159,5 @@ public class Page_Livre_Biblio extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //////////
-    // this event will enable the back
-    // function to the my_biblio_btn_remove on press
-    /*@Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+
 }
