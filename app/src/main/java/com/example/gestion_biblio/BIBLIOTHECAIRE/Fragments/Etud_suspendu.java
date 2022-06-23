@@ -41,7 +41,7 @@ public class Etud_suspendu extends Fragment {
 
     View view;
     RecyclerView recyclerView;
-    ArrayList<User_modelClass> etud_suspendu_list=new ArrayList<>();
+    ArrayList<User_modelClass> etud_suspendu_list;
     static BlackList_Adapter adapter;
     public String url ="http://"+ Login_Activity.IP+"/php_Scripts/Gestion_biblio_scripts/fetch_liste_noire.php";
     public String url1 ="http://"+ Login_Activity.IP+"/php_Scripts/Gestion_biblio_scripts/remove_suspendu.php";
@@ -60,6 +60,7 @@ public class Etud_suspendu extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
+        etud_suspendu_list=new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(Etud_suspendu.this.getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -107,6 +108,10 @@ public class Etud_suspendu extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Toast.makeText(getActivity(), jsonObject.getString("message").toString(), Toast.LENGTH_SHORT).show();
+                        etud_suspendu_list.remove(position);
+                        adapter = new BlackList_Adapter(getContext(),etud_suspendu_list,onClick_removeSuspendu);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                        recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

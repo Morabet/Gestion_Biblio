@@ -213,6 +213,7 @@
                             android:inputType="textPassword"
                             android:minHeight="48dp" />
 
+
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
 

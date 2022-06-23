@@ -38,7 +38,7 @@ public class Etud_Emprunter extends Fragment {
     View view;
     RecyclerView recyclerView;
     private static EmpruntAdapter emprunter_Adapter;
-    ArrayList<User_modelClass> userListe= new ArrayList<>();
+    ArrayList<User_modelClass> userListe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +58,7 @@ public class Etud_Emprunter extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
-
+        userListe= new ArrayList<>();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override

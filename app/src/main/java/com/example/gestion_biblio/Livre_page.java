@@ -44,8 +44,9 @@ public class Livre_page extends AppCompatActivity {
     RequestQueue requestQueue;
     public static final String myTAG = "REQUEST TAG";
     Handler handler = new Handler();
-    Runnable runnable;
-
+    Handler handler2 = new Handler();
+    Runnable runnable,runnable2;
+    int numR,numE;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +58,11 @@ public class Livre_page extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(Livre_page.this);
 
+        numR= Login_Activity.current_user.getNum_reserver();
+        numE= Login_Activity.current_user.getNum_emprunter();
+
         setUpViews();
+        getNum();
         refreshPage();
 
     }
@@ -93,12 +98,13 @@ public class Livre_page extends AppCompatActivity {
         tv_discipline.setText(discipline);
         tv_auteur.setText(auteur);
         tv_num.setText(String.valueOf(numExemp));
+        getNum();
     }
+///////////////////////////////////////
 
-    ////  !!  RESERVER  !!! ///////////////////////////////////////
     public void ReserverLivre(){
-
-        if(Login_Activity.current_user.getNum_reserver()+Login_Activity.current_user.getNum_emprunter()>=3 || numExemp<=0){
+        Log.e("dddddddd",numE+"    "+numR);
+        if( numE+ numR>=3 || numExemp<=0){
             Toast.makeText(Livre_page.this,"la réservation est refusée",Toast.LENGTH_LONG).show();
         }
         else {
@@ -118,8 +124,8 @@ public class Livre_page extends AppCompatActivity {
 
                     try {
                         JSONObject jsonObject= new JSONObject(response);
-
                         Toast.makeText(Livre_page.this, jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                        Log.e("dddddddd",numE+"    "+numR);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,7 +148,6 @@ public class Livre_page extends AppCompatActivity {
                     Map<String,String> params= new HashMap<>();
                     params.put("id_livre",String.valueOf(id));
                     params.put("etud_apogee",Login_Activity.current_user.getApogee());
-
                     return params;
                 }
             };
@@ -151,10 +156,60 @@ public class Livre_page extends AppCompatActivity {
         }
     }
 
+////  !!  RESERVER  !!! ///////////////////////////////////////
+
+    public void getNum(){
+        String url3= "http://"+Login_Activity.IP+":80/php_Scripts/Gestion_biblio_scripts/getNumExemplaireReserverEmprunter.php";
+
+        handler2.postDelayed(runnable2=new Runnable() {
+            @Override
+            public void run() {
+                requestQueue.cancelAll(myTAG);
+                StringRequest request3= new StringRequest(Request.Method.POST, url3, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object= new JSONObject(response);
+                            if(object.getString("error").equals("false")){
+                                numR=Integer.parseInt(object.getString("numR"));
+                                numE=Integer.parseInt(object.getString("numE"));
+                                Log.e("aaaaaaa",numR+"    "+numE);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }){
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
+                    }
+
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> param= new HashMap<>();
+                        param.put("apogee",Login_Activity.current_user.getApogee());
+                        return param;
+                    }
+                } ;
+                request3.setTag(myTAG);
+                requestQueue.add(request3);
+                handler2.postDelayed(runnable2, 1000);
+            }
+        },1000);
+
+    }
+
 /////////////////////////////////////////////////////////////////////////////
 
-
-    public void refreshPage(){
+   public void refreshPage(){
         String url= "http://"+Login_Activity.IP+":80/php_Scripts/Gestion_biblio_scripts/get_Single_Book.php";
 
         handler.postDelayed(runnable= new Runnable() {
@@ -203,9 +258,9 @@ public class Livre_page extends AppCompatActivity {
                 } ;
                 request2.setTag(myTAG);
                 requestQueue.add(request2);
-                handler.postDelayed(runnable, 3000);
+                handler.postDelayed(runnable, 1000);
             }
-        },3000);
+        },1000);
 
     }
 

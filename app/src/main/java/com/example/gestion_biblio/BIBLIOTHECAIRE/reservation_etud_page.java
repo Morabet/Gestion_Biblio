@@ -43,6 +43,7 @@ public class reservation_etud_page extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ArrayList<LivreReserver_Model> livre_reserver= new ArrayList<>();
+    Etud_reserver_info_Adapter adapter;
 
     TextView tv_apogee_reserver,tv_nom_reserver,tv_prenom_reserver;
     String apogee,nom,prenom;
@@ -102,7 +103,7 @@ public class reservation_etud_page extends AppCompatActivity {
                                 object.getString("titre")
                         ));
 
-                        Etud_reserver_info_Adapter adapter = new Etud_reserver_info_Adapter(reservation_etud_page.this,livre_reserver,confirmer_emprunt_interface);
+                        adapter = new Etud_reserver_info_Adapter(reservation_etud_page.this,livre_reserver,confirmer_emprunt_interface);
                         recyclerView.setLayoutManager(new LinearLayoutManager(reservation_etud_page.this));
                         recyclerView.setAdapter(adapter);
                     }
@@ -151,6 +152,10 @@ public class reservation_etud_page extends AppCompatActivity {
 
                         if(object.getString("error").equals("false")){
                             Toast.makeText(reservation_etud_page.this,object.getString("message"),Toast.LENGTH_LONG).show();
+                            livre_reserver.remove(position);
+                            adapter = new Etud_reserver_info_Adapter(reservation_etud_page.this,livre_reserver,confirmer_emprunt_interface);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(reservation_etud_page.this));
+                            recyclerView.setAdapter(adapter);
                         }
                         else Toast.makeText(reservation_etud_page.this,"la confirmation a échoué",Toast.LENGTH_LONG).show();
 

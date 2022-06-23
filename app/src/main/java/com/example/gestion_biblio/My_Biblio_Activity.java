@@ -11,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,6 +56,7 @@ public class My_Biblio_Activity extends AppCompatActivity {
 
     RecyclerView rv_livres_reserver,rv_livres_emprunter;
     My_Biblio_Adapter adapterR;
+    My_Biblio_Adapter_E adapterE;
     ProgressDialog progressDialog;
     TextView tv_livre_reserver,tv_num_livreR,tv_livre_emprunter,tv_num_livreE;
 
@@ -87,62 +89,63 @@ public class My_Biblio_Activity extends AppCompatActivity {
 
         String url= "http://"+Login_Activity.IP+":80/php_Scripts/Gestion_biblio_scripts/get_livresReserver_par_etud.php";
 
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
+                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        try {
 
-                try {
+                            JSONArray all_books = new JSONArray(response);
+                            for (int i = 0; i < all_books.length(); i++) {
 
-                    JSONArray all_books = new JSONArray(response);
-                    for (int i = 0; i < all_books.length(); i++) {
+                                JSONObject book = all_books.getJSONObject(i);
+                                String imageName = book.getString("image");
+                                String image_url = "http://" + Login_Activity.IP + "/php_Scripts/Gestion_biblio_scripts/livresCover/" + imageName;
 
-                        JSONObject book = all_books.getJSONObject(i);
-                        String imageName = book.getString("image");
-                        String image_url = "http://" + Login_Activity.IP + "/php_Scripts/Gestion_biblio_scripts/livresCover/" + imageName;
+                                livres_reserver.add(new Livre_Model(
+                                        book.getInt("id_reservation") ,
+                                        book.getInt("id_livre"),
+                                        image_url,
+                                        book.getString("titre"),
+                                        book.getString("discipline"),
+                                        book.getString("description"),
+                                        book.getString("auteur"),
+                                        book.getString("disponible"),
+                                        book.getInt("num_exemplaire")
+                                ));
+                            }
+                            tv_num_livreR.setText(String.valueOf(livres_reserver.size()));
+                            adapterR = new My_Biblio_Adapter(removeReservation_interface,My_Biblio_Activity.this,livres_reserver,recyclerViewInterface);
+                            rv_livres_reserver.setLayoutManager(new LinearLayoutManager(My_Biblio_Activity.this));
+                            rv_livres_reserver.setAdapter(adapterR);
 
-                        livres_reserver.add(new Livre_Model(
-                                book.getInt("id_reservation") ,
-                                book.getInt("id_livre"),
-                                image_url,
-                                book.getString("titre"),
-                                book.getString("discipline"),
-                                book.getString("description"),
-                                book.getString("auteur"),
-                                book.getString("disponible"),
-                                book.getInt("num_exemplaire")
-                        ));
+                            setLivresEmprunter();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }}, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(My_Biblio_Activity.this, "on error response", Toast.LENGTH_SHORT).show();
                     }
-                    tv_num_livreR.setText(String.valueOf(livres_reserver.size()));
-                    adapterR = new My_Biblio_Adapter(removeReservation_interface,My_Biblio_Activity.this,livres_reserver,recyclerViewInterface);
-                    rv_livres_reserver.setLayoutManager(new LinearLayoutManager(My_Biblio_Activity.this));
-                    rv_livres_reserver.setAdapter(adapterR);
+                }){
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
+                    }
 
-                    setLivresEmprunter();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }}, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(My_Biblio_Activity.this, "on error response", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params= new HashMap<>();
-                params.put("etud_apogee",Login_Activity.current_user.getApogee());
-                return params;
-            }
-        };
-        requestQueue.add(request);
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String,String> params= new HashMap<>();
+                        params.put("etud_apogee",Login_Activity.current_user.getApogee());
+                        return params;
+                    }
+                };
+                requestQueue.add(request);
     }
+
+/////////////////////////////////////////////////
 
     RemoveReservation_interface removeReservation_interface = new RemoveReservation_interface() {
         @Override
@@ -161,6 +164,13 @@ public class My_Biblio_Activity extends AppCompatActivity {
                         JSONObject jsonObject= new JSONObject(response);
                         if(jsonObject.getString("error").equals("false")){
                             Toast.makeText(My_Biblio_Activity.this,"reservation est suprimé",Toast.LENGTH_LONG).show();
+                            //setLivresReserver();
+                            livres_reserver.remove(position);
+                            tv_num_livreR.setText(String.valueOf(livres_reserver.size()));
+                            adapterR = new My_Biblio_Adapter(removeReservation_interface,My_Biblio_Activity.this,livres_reserver,recyclerViewInterface);
+                            rv_livres_reserver.setLayoutManager(new LinearLayoutManager(My_Biblio_Activity.this));
+                            rv_livres_reserver.setAdapter(adapterR);
+
                         }
                         else
                             Toast.makeText(My_Biblio_Activity.this, "error", Toast.LENGTH_SHORT).show();
@@ -195,8 +205,8 @@ public class My_Biblio_Activity extends AppCompatActivity {
     };
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-public void setLivresEmprunter(){
+
+    public void setLivresEmprunter(){
     ProgressDialog prr= new ProgressDialog(My_Biblio_Activity.this);
     prr.setTitle("please wait ...");
     prr.show();
@@ -230,7 +240,7 @@ public void setLivresEmprunter(){
             }
 
             tv_num_livreE.setText(String.valueOf(livres_emprunter.size()));
-                My_Biblio_Adapter_E adapterE = new My_Biblio_Adapter_E(My_Biblio_Activity.this,livres_emprunter,recyclerViewInterface2);
+                 adapterE = new My_Biblio_Adapter_E(My_Biblio_Activity.this,livres_emprunter,recyclerViewInterface2);
                 rv_livres_emprunter.setAdapter(adapterE);
                 rv_livres_emprunter.setLayoutManager(new LinearLayoutManager(My_Biblio_Activity.this));
             } catch (JSONException e) {
@@ -258,7 +268,9 @@ public void setLivresEmprunter(){
     };
     requestQueue.add(stringRequest2);
 }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     RecyclerView_Interface recyclerViewInterface= new RecyclerView_Interface() {
         @Override
         public void onItemClick(View view, int position) {
@@ -275,6 +287,7 @@ public void setLivresEmprunter(){
             startActivity(intent);
         }
     };
+
     /////////////////////////////////////////////
     RecyclerView_Interface_2 recyclerViewInterface2= new RecyclerView_Interface_2() {
         @Override

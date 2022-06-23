@@ -97,6 +97,10 @@ public class ActivityCompteBiblio extends AppCompatActivity implements Dialoge_1
             password = newPassword;
 
         modifierdata_DataBase(nom , email , password);
+        nom_admin.setText(nom);
+        email_admin.setText(email);
+        password_admin.setText(password);
+
     }
 
     private void modifierdata_DataBase(String nom, String email, String password) {

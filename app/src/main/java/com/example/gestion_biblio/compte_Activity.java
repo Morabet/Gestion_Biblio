@@ -38,7 +38,7 @@ import java.util.Map;
 public class compte_Activity extends AppCompatActivity implements Dialoge_1.Dialoge_1_Listener, Dialoge_2.Dialoge2_listener {
     BottomNavigationView bottomNavigationView;
 
-    TextView apogee_compte,nom,prenom,email,tele_compte;
+    TextView apogee_compte,nom,prenom,email_compte,tele_compte;
     Button btn_modifierCompte;
 
     @Override
@@ -64,13 +64,13 @@ public class compte_Activity extends AppCompatActivity implements Dialoge_1.Dial
         apogee_compte = findViewById(R.id.tv_apogee_compte);
         nom = findViewById(R.id.tv_nom);
         prenom = findViewById(R.id.tv_prenom);
-        email = findViewById(R.id.tv_email);
+        email_compte = findViewById(R.id.tv_email);
         tele_compte = findViewById(R.id.tv_tele_compte);
 
         apogee_compte.setText(Login_Activity.current_user.getApogee());
         nom.setText(Login_Activity.current_user.getNom());
         prenom.setText(Login_Activity.current_user.getPrenom());
-        email.setText(Login_Activity.current_user.getEmail());
+        email_compte.setText(Login_Activity.current_user.getEmail());
         tele_compte.setText(Login_Activity.current_user.getTele());
     }
 
@@ -105,6 +105,10 @@ public class compte_Activity extends AppCompatActivity implements Dialoge_1.Dial
         else tele=newTele;
 
         ModifyData_DataBase(email,pass,tele,apogee);
+       
+       email_compte.setText(email);
+       tele_compte.setText(tele);
+       apogee_compte.setText(apogee);
     }
 
     private void ModifyData_DataBase(String email,String pass,String tele,String apogee){

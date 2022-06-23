@@ -134,6 +134,10 @@ public class ConfirmerRetour_LivresEmprunter extends AppCompatActivity {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         Toast.makeText(ConfirmerRetour_LivresEmprunter.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        livre_emprunter.remove(position);
+                        adapter = new BookEmprunterAdapter(ConfirmerRetour_LivresEmprunter.this,livre_emprunter,onClick_confirmeRetour);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(ConfirmerRetour_LivresEmprunter.this));
+                        recyclerView.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

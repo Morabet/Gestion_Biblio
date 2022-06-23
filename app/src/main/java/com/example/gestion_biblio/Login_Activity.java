@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -33,11 +34,12 @@ import java.util.Map;
 
 public class Login_Activity extends AppCompatActivity implements Oublie_password_Dialoge.Dialoge_Listener{
 
-    public static String IP=  "10.0.2.2";  //"10.0.2.2";
+    public static String IP=  "192.168.43.76";  //"10.0.2.2";
 
     public static Current_User_Model current_user;     // setting the current user info
     Intent intent;
     EditText userName,password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,77 +81,64 @@ public class Login_Activity extends AppCompatActivity implements Oublie_password
         progressDialog1.show();
         String url ="http://"+IP+":80/php_Scripts/Gestion_biblio_scripts/login.php";
 
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog1.dismiss();
+                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog1.dismiss();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if(jsonObject.getString("error").equals("false")){
+                                if(jsonObject.getString("user").equals("etudiant")){
 
+                                    current_user = new Current_User_Model(jsonObject.getString("apogee"),
+                                            jsonObject.getString("nom"),jsonObject.getString("prenom"),
+                                            jsonObject.getString("email"),jsonObject.getString("mot_pass"),
+                                            jsonObject.getString("tele"),jsonObject.getString("statut"),
+                                            jsonObject.getInt("numReserver"),jsonObject.getInt("numEmprunter"));
 
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-
-                    Log.e("§§§§§§§§§§ TAG", "ERROR "+jsonObject.getString("error"));
-
-                    if(jsonObject.getString("error").equals("false")){
-                        if(jsonObject.getString("user").equals("etudiant")){
-
-                            current_user = new Current_User_Model(jsonObject.getString("apogee"),
-                                    jsonObject.getString("nom"),jsonObject.getString("prenom"),
-                                    jsonObject.getString("email"),jsonObject.getString("mot_pass"),
-                                    jsonObject.getString("tele"),jsonObject.getString("statut"),
-                                    jsonObject.getInt("numReserver"),jsonObject.getInt("numEmprunter"));
-
-                            intent = new Intent(Login_Activity.this,homeEtud_Activity.class);
-                            startActivity(intent);
-                        }
-                        if(jsonObject.getString("user").equals("admin")){
-                            intent = new Intent(Login_Activity.this,Biblio_Activity.class);
-                            startActivity(intent);
+                                    intent = new Intent(Login_Activity.this,homeEtud_Activity.class);
+                                    startActivity(intent);
+                                }
+                                if(jsonObject.getString("user").equals("admin")){
+                                    intent = new Intent(Login_Activity.this,Biblio_Activity.class);
+                                    startActivity(intent);
+                                }
+                            }
+                            else{
+                                Toast.makeText(Login_Activity.this, "échec de la connexion", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            Log.e("§§§§§§§§§§ TAG", "EXCEPTION :  "+e.getMessage());
+                            e.printStackTrace();
                         }
                     }
-                    else{
-                        Toast.makeText(Login_Activity.this, "les informations incorrectes", Toast.LENGTH_SHORT).show();
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login_Activity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }){
+                    @Override
+                    public String getBodyContentType() {
+                        // as we are passing data in the form of url encoded
+                        // so we are passing the content type below
+                        return "application/x-www-form-urlencoded; charset=UTF-8";
                     }
 
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
 
+                        Map<String,String> params = new HashMap<>();
+                        params.put("apogee",userName.getText().toString());
+                        params.put("mot_pass",password.getText().toString());
 
-                } catch (JSONException e) {
-                    Log.e("§§§§§§§§§§ TAG", "EXCEPTION :  "+e.getMessage());
-                    e.printStackTrace();
-                }
+                        return params;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(Login_Activity.this);
+                requestQueue.add(request);
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(Login_Activity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            public String getBodyContentType() {
-                // as we are passing data in the form of url encoded
-                // so we are passing the content type below
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-
-                Map<String,String> params = new HashMap<>();
-
-                // on below line we are passing our
-                // key and value pair to our parameters.
-
-                params.put("apogee",userName.getText().toString());
-                params.put("mot_pass",password.getText().toString());
-
-                return params;
-            }
-
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(Login_Activity.this);
-        requestQueue.add(request);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////

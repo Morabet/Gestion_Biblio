@@ -39,7 +39,7 @@ import java.util.Map;
 public class reservation extends Fragment {
     View view;
     RecyclerView recyclerView;
-    ArrayList<User_modelClass> userListe= new ArrayList<>();
+    ArrayList<User_modelClass> userListe;
     private static reservation_Adapter adapter;
 
     @Override
@@ -59,9 +59,8 @@ public class reservation extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
-
+        userListe= new ArrayList<>();
         String url ="http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_etud_reserver.php";
-
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
