@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gestion_Biblio</string>
+    <string name="app_name">FS Library</string>
     <string name="title_activity_home_etud">home_Etud_Activity</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"

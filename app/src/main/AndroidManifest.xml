@@ -14,6 +14,15 @@
         android:theme="@style/Theme.Gestion_Biblio"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SplashScreen"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".BIBLIOTHECAIRE.ActivityCompteBiblio"
             android:exported="false" />
         <activity
@@ -55,13 +64,7 @@
             android:exported="false" />
         <activity
             android:name=".Login_Activity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
     </application>
 
 </manifest>

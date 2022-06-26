@@ -29,14 +29,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Login_Activity extends AppCompatActivity implements Oublie_password_Dialoge.Dialoge_Listener{
 
-    public static String IP=  "192.168.100.32";  //"10.0.2.2";
+    public static String IP=  "192.168.1.106";  //"10.0.2.2";
 
     public static Current_User_Model current_user;     // setting the current user info
     Intent intent;
@@ -45,14 +43,11 @@ public class Login_Activity extends AppCompatActivity implements Oublie_password
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().setTitle("Gestion de Bibliothèque");
-
-
         userName = findViewById(R.id.edT_UserName);
         password = findViewById(R.id.edT_password);
-
 
     }
 
@@ -73,8 +68,6 @@ public class Login_Activity extends AppCompatActivity implements Oublie_password
         Intent intent_cree = new Intent(Login_Activity.this,Inscription.class);
         startActivity(intent_cree);
     }
-
-    ////////////////////////////////////////////////
 
 
     //////////////////////////////////////////////////
