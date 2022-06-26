@@ -24,6 +24,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +46,8 @@ public class Inscription extends AppCompatActivity {
         setUpViews();
 
     }
+    //////
+
 
     //////////////
     public  void setUpViews(){

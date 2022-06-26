@@ -32,6 +32,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +93,8 @@ public class compte_Activity extends AppCompatActivity implements Dialoge_1.Dial
             Toast.makeText(compte_Activity.this,"mot de passe incorrect",Toast.LENGTH_SHORT).show();
         }
     }
+
+    ////////////////////
 
     ////////////////////
    @Override

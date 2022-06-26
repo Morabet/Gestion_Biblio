@@ -39,6 +39,7 @@ public class Etud_Emprunter extends Fragment {
     RecyclerView recyclerView;
     private static EmpruntAdapter emprunter_Adapter;
     ArrayList<User_modelClass> userListe;
+    public String url= "http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_Etud_Emprunter.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,13 +53,11 @@ public class Etud_Emprunter extends Fragment {
     }
 
     private void setUpEtudList() {
-
-        String url= "http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_Etud_Emprunter.php";
-
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
         userListe= new ArrayList<>();
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -91,7 +90,6 @@ public class Etud_Emprunter extends Fragment {
                 Toast.makeText(getActivity(), "on error response", Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
         queue.add(stringRequest);
     }
 

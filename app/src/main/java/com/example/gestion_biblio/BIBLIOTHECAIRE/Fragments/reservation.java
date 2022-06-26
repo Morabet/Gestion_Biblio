@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,13 +43,14 @@ public class reservation extends Fragment {
     RecyclerView recyclerView;
     ArrayList<User_modelClass> userListe;
     private static reservation_Adapter adapter;
+    public  String url ="http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_etud_reserver.php";
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_reservation, container, false);
         recyclerView = view.findViewById(R.id.rv_reservedBooks_biblio);
-
         setUpUserListe();
 
         return view;
@@ -55,51 +58,50 @@ public class reservation extends Fragment {
 
     //////// set user liste /////
     public  void setUpUserListe(){
-
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
-        userListe= new ArrayList<>();
-        String url ="http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_etud_reserver.php";
-        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                progressDialog.dismiss();
-                try {
-                    JSONArray array = new JSONArray(response);
-                    for (int i = 0; i < array.length(); i++) {
 
-                        JSONObject object = array.getJSONObject(i);
-                        userListe.add(new User_modelClass(
-                                object.getString("apogee"),
-                                object.getString("nom"),
-                                object.getString("prenom")
-                        ));
+                userListe= new ArrayList<>();
+                RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+                StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        try {
+                            JSONArray array = new JSONArray(response);
+                            for (int i = 0; i < array.length(); i++) {
 
-                        adapter = new reservation_Adapter(getActivity(),userListe,recyclerViewInterface);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        recyclerView.setAdapter(adapter);
+                                JSONObject object = array.getJSONObject(i);
+                                userListe.add(new User_modelClass(
+                                        object.getString("apogee"),
+                                        object.getString("nom"),
+                                        object.getString("prenom")
+                                ));
+                                Log.e("ppppppppppp",""+userListe.size());
+                                adapter = new reservation_Adapter(getActivity(),userListe,recyclerViewInterface);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                recyclerView.setAdapter(adapter);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), "on error response", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "on error response", Toast.LENGTH_SHORT).show();
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-        requestQueue.add(request);
+                requestQueue.add(request);
     }
 
     ///////////////
     RecyclerView_Interface recyclerViewInterface = new RecyclerView_Interface() {
         @Override
         public void onItemClick(View view, int position) {
+
             Intent intent = new Intent(getContext(), reservation_etud_page.class);
 
             intent.putExtra("Apogee",userListe.get(position).getApogee());

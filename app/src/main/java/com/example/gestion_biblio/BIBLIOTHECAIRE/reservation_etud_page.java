@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -156,6 +157,10 @@ public class reservation_etud_page extends AppCompatActivity {
                             adapter = new Etud_reserver_info_Adapter(reservation_etud_page.this,livre_reserver,confirmer_emprunt_interface);
                             recyclerView.setLayoutManager(new LinearLayoutManager(reservation_etud_page.this));
                             recyclerView.setAdapter(adapter);
+                            ////
+
+                            Log.e("llllllllll",""+livre_reserver.size());
+
                         }
                         else Toast.makeText(reservation_etud_page.this,"la confirmation a échoué",Toast.LENGTH_LONG).show();
 
