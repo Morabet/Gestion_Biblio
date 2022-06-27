@@ -115,7 +115,7 @@ public class Ajouter_livre extends Fragment {
     }
 
     private void setSpinner() {
-        String disciplines[]= {"","physique","chimie","chimie","giologie","mathematique","informatique"};
+        String disciplines[]= {"","physique","biologie","chimie","giologie","mathematique","informatique"};
         ArrayAdapter<String> adapter= new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item,disciplines);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
