@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.util.Log;
@@ -38,31 +39,39 @@ import java.util.ArrayList;
 import java.util.Map;
 
 
-public class reservation extends Fragment {
+public class reservation extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     View view;
-    RecyclerView recyclerView;
-    ArrayList<User_modelClass> userListe;
-    private static reservation_Adapter adapter;
+     RecyclerView recyclerViewR;
+     ArrayList<User_modelClass> userListe;
+    private static reservation_Adapter adapterR;
     public  String url ="http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_etud_reserver.php";
+     SwipeRefreshLayout swipe;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_reservation, container, false);
-        recyclerView = view.findViewById(R.id.rv_reservedBooks_biblio);
-        setUpUserListe();
+        recyclerViewR = view.findViewById(R.id.rv_reservedBooks_biblio);
+        swipe = view.findViewById(R.id.swipe);
+        swipe.setOnRefreshListener(this);
 
+        setUpUserListe();
         return view;
     }
 
+    @Override
+    public void onRefresh() {
+       setUpUserListe();
+        swipe.setRefreshing(false);
+    }
     //////// set user liste /////
     public  void setUpUserListe(){
         ProgressDialog progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
-
                 userListe= new ArrayList<>();
+
                 RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
                 StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
@@ -79,9 +88,9 @@ public class reservation extends Fragment {
                                         object.getString("prenom")
                                 ));
                                 Log.e("ppppppppppp",""+userListe.size());
-                                adapter = new reservation_Adapter(getActivity(),userListe,recyclerViewInterface);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                                recyclerView.setAdapter(adapter);
+                                adapterR = new reservation_Adapter(getActivity(),userListe,recyclerViewInterface);
+                                recyclerViewR.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                recyclerViewR.setAdapter(adapterR);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -93,8 +102,13 @@ public class reservation extends Fragment {
                         Toast.makeText(getActivity(), "on error response", Toast.LENGTH_SHORT).show();
                     }
                 });
+                adapterR = new reservation_Adapter(getActivity(),userListe,recyclerViewInterface);
+                recyclerViewR.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerViewR.setAdapter(adapterR);
 
                 requestQueue.add(request);
+
+
     }
 
     ///////////////
@@ -113,6 +127,8 @@ public class reservation extends Fragment {
     };
     ///////////////////////////////////////////////
     public static void filter(String s){
-        adapter.getFilter().filter(s);
+        adapterR.getFilter().filter(s);
     }
+
+
 }

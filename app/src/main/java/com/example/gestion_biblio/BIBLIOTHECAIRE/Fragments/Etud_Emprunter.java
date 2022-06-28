@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,23 +34,31 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Etud_Emprunter extends Fragment {
+public class Etud_Emprunter extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     View view;
     RecyclerView recyclerView;
     private static EmpruntAdapter emprunter_Adapter;
     ArrayList<User_modelClass> userListe;
     public String url= "http://"+ Login_Activity.IP +":80/php_Scripts/Gestion_biblio_scripts/fetch_Etud_Emprunter.php";
+    SwipeRefreshLayout swipeE;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_etud__emprunter, container, false);
-
         recyclerView= view.findViewById(R.id.rv_retourn_emprunt);
+        swipeE = view.findViewById(R.id.swiprE);
+        swipeE.setOnRefreshListener(this);
+
         setUpEtudList();
         return view;
+    }
+    @Override
+    public void onRefresh() {
+        setUpEtudList();
+        swipeE.setRefreshing(false);
     }
 
     private void setUpEtudList() {
@@ -90,6 +99,9 @@ public class Etud_Emprunter extends Fragment {
                 Toast.makeText(getActivity(), "on error response", Toast.LENGTH_SHORT).show();
             }
         });
+        emprunter_Adapter = new EmpruntAdapter(getContext(), userListe, onClick_etudEmprunter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(emprunter_Adapter);
         queue.add(stringRequest);
     }
 
@@ -110,4 +122,6 @@ public class Etud_Emprunter extends Fragment {
     public static void filter(String s){
         emprunter_Adapter.getFilter().filter(s);
     }
+
+
 }

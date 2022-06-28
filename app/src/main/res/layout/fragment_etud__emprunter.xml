@@ -5,8 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".BIBLIOTHECAIRE.Fragments.Etud_Emprunter">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_retourn_emprunt"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiprE"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_retourn_emprunt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 </FrameLayout>

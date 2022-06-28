@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,12 +38,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Etud_suspendu extends Fragment {
+public class Etud_suspendu extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     View view;
     RecyclerView recyclerView;
     ArrayList<User_modelClass> etud_suspendu_list;
     static BlackList_Adapter adapter;
+    SwipeRefreshLayout swipeS;
     public String url ="http://"+ Login_Activity.IP+"/php_Scripts/Gestion_biblio_scripts/fetch_liste_noire.php";
     public String url1 ="http://"+ Login_Activity.IP+"/php_Scripts/Gestion_biblio_scripts/remove_suspendu.php";
     @Override
@@ -51,9 +53,17 @@ public class Etud_suspendu extends Fragment {
         // Inflate the layout for this fragment
        view =  inflater.inflate(R.layout.fragment_etud_suspendu, container, false);
        recyclerView = view.findViewById(R.id.rv_BlackList);
+       swipeS = view.findViewById(R.id.swipeS);
+       swipeS.setOnRefreshListener(this);
        data();
 
        return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        data();
+        swipeS.setRefreshing(false);
     }
 
     private void data() {
@@ -83,8 +93,6 @@ public class Etud_suspendu extends Fragment {
                             adapter = new BlackList_Adapter(getContext(),etud_suspendu_list,onClick_removeSuspendu);
                             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                             recyclerView.setAdapter(adapter);
-
-
                         }catch (Exception e){
 
                         }
@@ -95,6 +103,9 @@ public class Etud_suspendu extends Fragment {
                 Toast.makeText(getActivity(), "Fail to get the data..", Toast.LENGTH_SHORT).show();
             }
         });
+        adapter = new BlackList_Adapter(getContext(),etud_suspendu_list,onClick_removeSuspendu);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter);
         queue.add(stringRequest);
     }
 

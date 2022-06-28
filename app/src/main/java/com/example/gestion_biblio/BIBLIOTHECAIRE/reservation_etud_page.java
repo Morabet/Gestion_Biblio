@@ -1,5 +1,7 @@
 package com.example.gestion_biblio.BIBLIOTHECAIRE;
 
+
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -157,6 +159,7 @@ public class reservation_etud_page extends AppCompatActivity {
                             adapter = new Etud_reserver_info_Adapter(reservation_etud_page.this,livre_reserver,confirmer_emprunt_interface);
                             recyclerView.setLayoutManager(new LinearLayoutManager(reservation_etud_page.this));
                             recyclerView.setAdapter(adapter);
+
                             ////
 
                             Log.e("llllllllll",""+livre_reserver.size());
