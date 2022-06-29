@@ -95,27 +95,27 @@ public class parentAdapter extends RecyclerView.Adapter<parentAdapter.ViewHlder>
 
                    Intent intent = new Intent(context, Livres_listes.class);
 
-                    if(parent_title.getText().equals("mathématiques")){
+                    if(parent_title.getText().equals("Mathématiques")){
 
                         sendData(intent,homeEtud_Activity.math_List);
 
-                    } else if(parent_title.getText().equals("physique")){
+                    } else if(parent_title.getText().equals("Physique")){
 
                         sendData(intent,homeEtud_Activity.physic_List);
 
-                    }else if(parent_title.getText().equals("informatique")){
+                    }else if(parent_title.getText().equals("Informatique")){
 
                         sendData(intent,homeEtud_Activity.computerScience_List);
 
-                    }else if(parent_title.getText().equals("biologie")){
+                    }else if(parent_title.getText().equals("Biologie")){
 
                         sendData(intent,homeEtud_Activity.biology_List);
 
-                    }else if(parent_title.getText().equals("giologie")){
+                    }else if(parent_title.getText().equals("Giologie")){
 
                         sendData(intent,homeEtud_Activity.geology_List);
 
-                    }else if(parent_title.getText().equals("chimie")){
+                    }else if(parent_title.getText().equals("Chimie")){
 
                         sendData(intent,homeEtud_Activity.chemistry_List);
 

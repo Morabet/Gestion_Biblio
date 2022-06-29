@@ -98,12 +98,12 @@ public class homeEtud_Activity extends AppCompatActivity {
             }
 
         }
-        parentList.add(new parent_modelClass("mathématiques",math_List));
-        parentList.add(new parent_modelClass("physique",physic_List));
-        parentList.add(new parent_modelClass("giologie",geology_List));
-        parentList.add(new parent_modelClass("biologie",biology_List));
-        parentList.add(new parent_modelClass("informatique",computerScience_List));
-        parentList.add(new parent_modelClass("chimie",chemistry_List));
+        parentList.add(new parent_modelClass("Mathématiques",math_List));
+        parentList.add(new parent_modelClass("Physique",physic_List));
+        parentList.add(new parent_modelClass("Giologie",geology_List));
+        parentList.add(new parent_modelClass("Biologie",biology_List));
+        parentList.add(new parent_modelClass("Informatique",computerScience_List));
+        parentList.add(new parent_modelClass("Chimie",chemistry_List));
 
         return parentList;
     }

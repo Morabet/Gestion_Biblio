@@ -94,6 +94,7 @@
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/activity_page_livre_biblio.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/activity_page_modification_livre.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/activity_reservation_etud_page.xml" value="0.1" />
+        <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/child_rv_item_layout.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/dialog_1_layout.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/dialog_2_layout.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/dialoge_3_layout.xml" value="0.22" />
@@ -102,8 +103,10 @@
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/fragment_etud__emprunter.xml" value="0.1796875" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/fragment_etud_suspendu.xml" value="0.1796875" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/fragment_reservation.xml" value="0.1796875" />
+        <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/liste_livres_e.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/my_biblio_rv_layout_emprunter.xml" value="0.1308876811594203" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/oublie_password_dialoge_layout.xml" value="0.1796875" />
+        <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/layout/parent_rv_layout.xml" value="0.1381340579710145" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/menu/menu_exit_item.xml" value="0.1796875" />
         <entry key="..\:/Users/DELL/Desktop/Gestion_Biblio_02-master/app/src/main/res/menu/search_item.xml" value="0.1" />
