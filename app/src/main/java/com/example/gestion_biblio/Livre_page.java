@@ -124,7 +124,7 @@ public class Livre_page extends AppCompatActivity {
 
                     try {
                         JSONObject jsonObject= new JSONObject(response);
-                        Toast.makeText(Livre_page.this, jsonObject.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Livre_page.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                         Log.e("dddddddd",numE+"    "+numR);
 
                     } catch (JSONException e) {
@@ -258,9 +258,9 @@ public class Livre_page extends AppCompatActivity {
                 } ;
                 request2.setTag(myTAG);
                 requestQueue.add(request2);
-                handler.postDelayed(runnable, 1000);
+                handler.postDelayed(runnable, 0);
             }
-        },1000);
+        },0);
 
     }
 

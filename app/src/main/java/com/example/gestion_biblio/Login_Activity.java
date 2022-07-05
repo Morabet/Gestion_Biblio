@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class Login_Activity extends AppCompatActivity implements Oublie_password_Dialoge.Dialoge_Listener{
 
-    public static String IP=  "192.168.43.76";  //"10.0.2.2";
+    public static String IP=  "192.168.43.104";  //"10.0.2.2";
 
     public static Current_User_Model current_user;     // setting the current user info
     Intent intent;
