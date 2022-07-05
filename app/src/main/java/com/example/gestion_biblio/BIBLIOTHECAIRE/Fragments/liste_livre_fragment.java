@@ -45,7 +45,7 @@ public class liste_livre_fragment extends Fragment {
     View view;
 
     RecyclerView recyclerView;
-    ArrayList<Livre_Model> livres_ArrayList = new ArrayList<>();
+    ArrayList<Livre_Model> livres_ArrayList;
     private static Livres_liste_Adapter adapter;
 
     @Override
@@ -67,7 +67,7 @@ public class liste_livre_fragment extends Fragment {
         ProgressDialog progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("please wait ...!");
         progressDialog.show();
-
+        livres_ArrayList= new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

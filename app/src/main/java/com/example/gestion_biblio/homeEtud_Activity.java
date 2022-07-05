@@ -45,7 +45,7 @@ public class homeEtud_Activity extends AppCompatActivity {
     RecyclerView recyclerView;
     parentAdapter parent_adapter;
     ArrayList<parent_modelClass> parentList= new ArrayList<>();
-    ArrayList<Livre_Model> livre_list = new ArrayList<>();     // to store fetched data from database
+    ArrayList<Livre_Model> livre_list;     // to store fetched data from database
 
     public static ArrayList<Livre_Model> math_List = new ArrayList<>();
     public static ArrayList<Livre_Model> computerScience_List = new ArrayList<>();
@@ -115,8 +115,9 @@ public class homeEtud_Activity extends AppCompatActivity {
         progressDialog.show();
 
         String url ="http://"+Login_Activity.IP+":80/php_Scripts/Gestion_biblio_scripts/fetch_books_2.php";
-
+        livre_list = new ArrayList<>();
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();

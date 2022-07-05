@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class Livres_listes extends AppCompatActivity implements RecyclerView_Interface {
 
-    ArrayList<Livre_Model> livres_liste = new ArrayList<>();
+    ArrayList<Livre_Model> livres_liste ;
     RecyclerView rv_livres_liste;
     Livres_liste_Adapter adapter;
 
@@ -36,7 +36,7 @@ public class Livres_listes extends AppCompatActivity implements RecyclerView_Int
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         rv_livres_liste = findViewById(R.id.rv_livres_liste);
-
+        livres_liste= new ArrayList<>();
         adapter =new Livres_liste_Adapter(Livres_listes.this,setBookList(livres_liste),this);
 
         rv_livres_liste.setAdapter(adapter);
@@ -64,6 +64,7 @@ public class Livres_listes extends AppCompatActivity implements RecyclerView_Int
 
     ///////////////
     public ArrayList<Livre_Model> setBookList(ArrayList<Livre_Model> list){
+        list=new ArrayList<>();
         int size,numEx,id;
         String image,title,auteur,discipline,description,disponible;
 
