@@ -61,8 +61,8 @@ public class Livre_page extends AppCompatActivity {
         numR= Login_Activity.current_user.getNum_reserver();
         numE= Login_Activity.current_user.getNum_emprunter();
 
-        setUpViews();
         getNum();
+        setUpViews();
         refreshPage();
 
     }
@@ -109,6 +109,7 @@ public class Livre_page extends AppCompatActivity {
         }
         else {
             handler.removeCallbacks(runnable);  // to stop the handler
+            handler2.removeCallbacks(runnable2);
 
             ProgressDialog progressDialog = new ProgressDialog(Livre_page.this);
             progressDialog.setMessage("please wait ...!");
@@ -120,12 +121,12 @@ public class Livre_page extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     handler.postDelayed(runnable, 0);   // to reset the handler
+                    handler2.postDelayed(runnable2,0);
                     progressDialog.dismiss();
 
                     try {
                         JSONObject jsonObject= new JSONObject(response);
                         Toast.makeText(Livre_page.this, jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        Log.e("dddddddd",numE+"    "+numR);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -160,7 +161,8 @@ public class Livre_page extends AppCompatActivity {
 
     public void getNum(){
         String url3= "http://"+Login_Activity.IP+":80/php_Scripts/Gestion_biblio_scripts/getNumExemplaireReserverEmprunter.php";
-
+        Log.e("MMMMM","getNum 1");
+        handler.removeCallbacks(runnable);
         handler2.postDelayed(runnable2=new Runnable() {
             @Override
             public void run() {
@@ -168,22 +170,24 @@ public class Livre_page extends AppCompatActivity {
                 StringRequest request3= new StringRequest(Request.Method.POST, url3, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.e("NNNN","getNum");
                         try {
                             JSONObject object= new JSONObject(response);
                             if(object.getString("error").equals("false")){
                                 numR=Integer.parseInt(object.getString("numR"));
                                 numE=Integer.parseInt(object.getString("numE"));
-                                Log.e("aaaaaaa",numR+"    "+numE);
+                                Log.e("AAAAAAA",numR+"    "+numE);
 
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        handler.postDelayed(runnable,0);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.e("NNEEEEE","getNum ERROR");
                     }
                 }){
                     @Override
@@ -211,32 +215,29 @@ public class Livre_page extends AppCompatActivity {
 
    public void refreshPage(){
         String url= "http://"+Login_Activity.IP+":80/php_Scripts/Gestion_biblio_scripts/get_Single_Book.php";
-
+            Log.e("RRRRRR","refresh ");
+            handler2.removeCallbacks(runnable2);
         handler.postDelayed(runnable= new Runnable() {
             @Override
             public void run() {
-                Log.e("/////////// ATG","Threades: "+Thread.activeCount());
                 requestQueue.cancelAll(myTAG);
-                Log.e("/////////// TAG","Threades: "+Thread.activeCount());
+
                 StringRequest request2= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject object= new JSONObject(response);
-                            Log.e("/////////// TAG","ERROR ////:"+object.getString("error"));
                             if(object.getString("error").equals("false")){
-                                Log.e("/////////// TAG","ERROR ////:"+object.getString("titre")+object.getString("description"));
                                 tv_livreTitre.setText(object.getString("titre"));
                                 tv_description.setText(object.getString("description"));
                                 tv_discipline.setText(object.getString("discipline"));
                                 tv_auteur.setText(object.getString("auteur"));
                                 tv_num.setText(object.getString("numEx"));
-                                Log.e("/////////// TAG","NUMEX: "+object.getString("numEx"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        handler2.postDelayed(runnable2,0);
                     }
                 }, new Response.ErrorListener() {
                     @Override
@@ -258,9 +259,9 @@ public class Livre_page extends AppCompatActivity {
                 } ;
                 request2.setTag(myTAG);
                 requestQueue.add(request2);
-                handler.postDelayed(runnable, 0);
+                handler.postDelayed(runnable, 1000);
             }
-        },0);
+        },1000);
 
     }
 
