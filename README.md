@@ -91,9 +91,7 @@ Ce dépôt présente un **projet académique réalisé en 2022**, et non une sol
 
 ## Documentation
 
-Le rapport de fin d'études détaille la problématique, l'analyse des besoins, les diagrammes de conception, l'architecture technique, les interfaces de l'application et les difficultés rencontrées.
-
-> Le rapport et les captures d'écran peuvent être ajoutés au dépôt dans un dossier `docs/` afin de compléter cette présentation.
+Le rapport de fin d'études détaille la problématique, l'analyse des besoins, les diagrammes de conception, l'architecture technique, les interfaces de l'application et les difficultés rencontrées: `root/Documentation du projet.docx`
 
 ## Auteurs et encadrement
 
