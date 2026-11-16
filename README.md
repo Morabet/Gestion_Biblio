@@ -1,4 +1,4 @@
-# FS Library — Application Android de gestion d'une bibliothèque
+# Application Android de gestion d'une bibliothèque
 
 **Projet de fin d'études (Licence fondamentale en Sciences Mathématiques et Informatique, 2021–2022)**  
 Faculté des Sciences de Tétouan — Université Abdelmalek Essaâdi
